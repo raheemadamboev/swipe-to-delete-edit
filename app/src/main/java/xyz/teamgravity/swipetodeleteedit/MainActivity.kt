@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import xyz.teamgravity.swipetodeleteedit.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SwipeTouchAdapter.SwipeTouchListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -51,6 +51,21 @@ class MainActivity : AppCompatActivity() {
             adapter = MainAdapter()
             recyclerview.setHasFixedSize(true)
             recyclerview.adapter = adapter
+            val swipe = SwipeTouchAdapter(
+                leftAction = SwipeTouchAdapter.SwipeTouchAction.fromResource(
+                    context = this@MainActivity,
+                    icon = R.drawable.ic_delete,
+                    background = R.color.red
+                ),
+                rightAction = SwipeTouchAdapter.SwipeTouchAction.fromResource(
+                    context = this@MainActivity,
+                    icon = R.drawable.ic_edit,
+                    background = R.color.blue
+                ),
+                margin = toPx(16)
+            )
+            swipe.listener = this@MainActivity
+            swipe.attachToRecyclerView(recyclerview)
         }
     }
 
@@ -60,5 +75,14 @@ class MainActivity : AppCompatActivity() {
                 adapter.submitList(data)
             }
         }
+    }
+
+    override fun onSwipeRight(position: Int) {
+        viewmodel.onDelete(position)
+    }
+
+    override fun onSwipeLeft(position: Int) {
+        adapter.notifyItemChanged(position)
+        // TODO handle action
     }
 }

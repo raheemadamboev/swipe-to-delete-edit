@@ -45,6 +45,9 @@ dependencies {
     // constraintlayout
     implementation(libs.constraintlayout)
 
+    // recyclerview
+    implementation(libs.recyclerview)
+
     // core
     implementation(libs.core)
 

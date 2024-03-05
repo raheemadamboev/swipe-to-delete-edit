@@ -15,10 +15,10 @@ class MainViewModel : ViewModel() {
     // API
     ///////////////////////////////////////////////////////////////////////////
 
-    fun onDelete(value: NameModel) {
+    fun onDelete(position: Int) {
         _names.update { data ->
             val processedData = data.toMutableList()
-            processedData.remove(value)
+            processedData.removeAt(position)
             return@update processedData
         }
     }
